@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/scan.dart';
-import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child:
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: RaisedButton(
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                          splashColor: Colors.blueGrey,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ScanScreen()),
-                            );
-                          },
-                          child: const Text('SCAN QR CODE')
-                      ),
-                    )
-                ]
-              )
-        )
-        );
+      body: Center(
+        child: ListView(
+          children: [
+            Center(
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const ListTile(
+                      leading: Icon(Icons.album),
+                      title: Text('Caja roja 1'),
+                      subtitle:
+                          Text('Acá hay ropa de invierno.'),
+                    ),
+                    ButtonBar(
+                      children: <Widget>[
+                        FlatButton(
+                          child: const Text('Ver código QR'),
+                          onPressed: () {/* ... */},
+                        ),
+                        FlatButton(
+                          child: const Text('Ver que hay dentro'),
+                          onPressed: () {/* ... */},
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.edit,
+        ),
+      ),
+    );
   }
 }
