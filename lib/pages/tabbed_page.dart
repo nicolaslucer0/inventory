@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/home_screen.dart';
+import 'package:inventory/container_screen.dart';
 import 'package:inventory/scan.dart';
 
 class MyTabbedPage extends StatelessWidget {
@@ -33,7 +33,7 @@ class MyTabbedPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            HomeScreen(),
+            ContainerScreen(),
             ScanScreen(),
           ],
         ),
