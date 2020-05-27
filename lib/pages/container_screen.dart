@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/database/database.dart';
+import 'package:inventory/models/ContainerModel.dart';
 import 'dart:math' as math;
-import 'models/ContainerModel.dart';
+
+import 'package:inventory/routes.dart';
 
 class ContainerScreen extends StatefulWidget {
   @override
@@ -56,9 +58,7 @@ class _ContainerScreenState extends State<ContainerScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          Client rnd = testClients[math.Random().nextInt(testClients.length)];
-          await DBProvider.db.newClient(rnd);
-          setState(() {});
+          Navigator.pushNamed(context, formRoute);
         },
       ),
     );

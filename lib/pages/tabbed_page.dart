@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/container_screen.dart';
-import 'package:inventory/scan.dart';
+
+import 'container_screen.dart';
+import 'scan.dart';
 
 class MyTabbedPage extends StatelessWidget {
   final List<Tab> myTabs = <Tab>[
