@@ -1,39 +1,35 @@
 import 'dart:convert';
 
-Client clientFromJson(String str) {
+ContainerModel containerModelFromJson(String str) {
   final jsonData = json.decode(str);
-  return Client.fromMap(jsonData);
+  return ContainerModel.fromMap(jsonData);
 }
 
-String clientToJson(Client data) {
+String containerModelToJson(ContainerModel data) {
   final dyn = data.toMap();
   return json.encode(dyn);
 }
 
-class Client {
+class ContainerModel {
   int id;
-  String firstName;
-  String lastName;
-  bool blocked;
+  String name;
+  String description;
 
-  Client({
+  ContainerModel({
     this.id,
-    this.firstName,
-    this.lastName,
-    this.blocked,
+    this.name,
+    this.description,
   });
 
-  factory Client.fromMap(Map<String, dynamic> json) => new Client(
+  factory ContainerModel.fromMap(Map<String, dynamic> json) => new ContainerModel(
         id: json["id"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        blocked: json["blocked"] == 1,
+        name: json["name"],
+        description: json["description"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "first_name": firstName,
-        "last_name": lastName,
-        "blocked": blocked,
+        "name": name,
+        "description": description,
       };
 }

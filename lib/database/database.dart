@@ -22,83 +22,71 @@ class DBProvider {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TestDB.db");
+    String path = join(documentsDirectory.path, "inventory.db");
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute("CREATE TABLE Client ("
+      await db.execute("CREATE TABLE ContainerModel ("
           "id INTEGER PRIMARY KEY,"
-          "first_name TEXT,"
-          "last_name TEXT,"
-          "blocked BIT"
+          "name TEXT,"
+          "description TEXT"
           ")");
     });
   }
 
-  newClient(Client newClient) async {
+  newContainerModel(ContainerModel newContainerModel) async {
     final db = await database;
     //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Client");
+    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM ContainerModel");
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into Client (id,first_name,last_name,blocked)"
+        "INSERT Into ContainerModel (id,name,description)"
         " VALUES (?,?,?,?)",
-        [id, newClient.firstName, newClient.lastName, newClient.blocked]);
+        [id, newContainerModel.name, newContainerModel.description]);
     return raw;
   }
 
-  blockOrUnblock(Client client) async {
+
+  updateContainerModel(ContainerModel newContainerModel) async {
     final db = await database;
-    Client blocked = Client(
-        id: client.id,
-        firstName: client.firstName,
-        lastName: client.lastName,
-        blocked: !client.blocked);
-    var res = await db.update("Client", blocked.toMap(),
-        where: "id = ?", whereArgs: [client.id]);
+    var res = await db.update("ContainerModel", newContainerModel.toMap(),
+        where: "id = ?", whereArgs: [newContainerModel.id]);
     return res;
   }
 
-  updateClient(Client newClient) async {
+  getContainerModel(int id) async {
     final db = await database;
-    var res = await db.update("Client", newClient.toMap(),
-        where: "id = ?", whereArgs: [newClient.id]);
-    return res;
+    var res = await db.query("ContainerModel", where: "id = ?", whereArgs: [id]);
+    return res.isNotEmpty ? ContainerModel.fromMap(res.first) : null;
   }
 
-  getClient(int id) async {
-    final db = await database;
-    var res = await db.query("Client", where: "id = ?", whereArgs: [id]);
-    return res.isNotEmpty ? Client.fromMap(res.first) : null;
-  }
-
-  Future<List<Client>> getBlockedClients() async {
+  Future<List<ContainerModel>> getBlockedContainerModels() async {
     final db = await database;
 
     print("works");
-    // var res = await db.rawQuery("SELECT * FROM Client WHERE blocked=1");
-    var res = await db.query("Client", where: "blocked = ? ", whereArgs: [1]);
+    // var res = await db.rawQuery("SELECT * FROM ContainerModel WHERE blocked=1");
+    var res = await db.query("ContainerModel", where: "blocked = ? ", whereArgs: [1]);
 
-    List<Client> list =
-        res.isNotEmpty ? res.map((c) => Client.fromMap(c)).toList() : [];
+    List<ContainerModel> list =
+        res.isNotEmpty ? res.map((c) => ContainerModel.fromMap(c)).toList() : [];
     return list;
   }
 
-  Future<List<Client>> getAllClients() async {
+  Future<List<ContainerModel>> getAllContainerModels() async {
     final db = await database;
-    var res = await db.query("Client");
-    List<Client> list =
-        res.isNotEmpty ? res.map((c) => Client.fromMap(c)).toList() : [];
+    var res = await db.query("ContainerModel");
+    List<ContainerModel> list =
+        res.isNotEmpty ? res.map((c) => ContainerModel.fromMap(c)).toList() : [];
     return list;
   }
 
-  deleteClient(int id) async {
+  deleteContainerModel(int id) async {
     final db = await database;
-    return db.delete("Client", where: "id = ?", whereArgs: [id]);
+    return db.delete("ContainerModel", where: "id = ?", whereArgs: [id]);
   }
 
   deleteAll() async {
     final db = await database;
-    db.rawDelete("Delete * from Client");
+    db.rawDelete("Delete * from ContainerModel");
   }
 }

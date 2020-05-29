@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/database/database.dart';
-import 'package:inventory/models/ContainerModel.dart';
 
 // Create a Form widget.
 class ContainerForm extends StatefulWidget {
@@ -44,7 +42,9 @@ class ContainerFormState extends State<ContainerForm> {
                 'Crear un nuevo contenedor',
                 style: new TextStyle(color: Colors.black, fontSize: 25.0),
               ),
-              new Padding(padding: EdgeInsets.only(top: 50.0)),
+              new Padding(
+                padding: EdgeInsets.only(top: 50.0),
+              ),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "Nombre de contenedor",
